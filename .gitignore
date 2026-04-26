@@ -1,0 +1,6 @@
+build/
+gdb.txt
+# run.sh is a local debug tool
+run.sh
+# So is format.sh
+format.sh
