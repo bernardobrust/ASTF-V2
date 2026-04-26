@@ -75,6 +75,10 @@ void _astf_ae_ptr(const void *exp, const void *act, const char *file, int line);
     _Generic((expected), float: _astf_ae_float, double: _astf_ae_double)(      \
         expected, actual, epsilon, __FILE__, __LINE__)
 
+#define astf_assert_null(pointer) astf_assert_equal(NULL, pointer)
+#define astf_assert_not_null(pointer)                                          \
+    _astf_assert_not_null(pointer, __FILE__, __LINE__)
+
 #ifdef ASTF_IMPLEMENTATION
 astf_ctx _astf_global_ctx = {0};
 
@@ -180,6 +184,32 @@ void _astf_ae_float(float exp, float act, float eps, const char *file,
         _astf_global_ctx.failed++;
     }
 }
+
+// Pointers
+void _astf_ae_ptr(const void *exp, const void *act, const char *file,
+                  int line) {
+    if (exp == act)
+        _astf_global_ctx.passed++;
+    else {
+        printf(astf_output_fail "[FAILED] %s: %d\n" astf_output_warn
+                                "Expected pointer %p but got %p\n\n",
+               file, line, exp, act);
+        _astf_global_ctx.failed++;
+    }
+}
+
+void _astf_assert_not_null(const void *ptr, const char *file, int line) {
+    if (ptr != NULL)
+        _astf_global_ctx.passed++;
+    else {
+        printf(astf_output_fail
+               "[FAILED] %s: %d\n" astf_output_warn
+               "Expected pointer to not be null, but it is\n\n",
+               file, line);
+        _astf_global_ctx.failed++;
+    }
+}
+
 // -----------------------------------------------------------------------------
 
 // Get results
@@ -187,6 +217,7 @@ void astf_retrieve_results(void) {
     printf(astf_output_info "\n--- Results for %s ---\n",
            _astf_global_ctx.test_suite_name);
     printf(astf_output_pass "Passed: %d\n", _astf_global_ctx.passed);
-    printf(astf_output_fail "Failed: %d\n", _astf_global_ctx.failed);
+    printf(astf_output_fail "Failed: %d\n" astf_output_normal,
+           _astf_global_ctx.failed);
 }
 #endif

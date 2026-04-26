@@ -1,6 +1,8 @@
 #define ASTF_IMPLEMENTATION
 #include "astf.h"
 
+#include <string.h>
+
 int fib(const int n) {
     int pp = 0, p = 1, next;
     for (int i = 2; i <= n; ++i) {
@@ -56,7 +58,25 @@ void test_suite2() {
     astf_retrieve_results();
 }
 
-void test_suite3() {}
+void test_suite3() {
+    astf_start_test_suite("Pointers");
+
+    long x = 100;
+    long *ptr1 = NULL, *ptr2 = &x;
+
+    char *str = malloc(4);
+
+    astf_assert_not_null(str);
+    astf_assert_not_null(ptr1);
+    astf_assert_equal(ptr2, &x);
+    astf_assert_null(ptr1);
+    astf_assert_null(ptr2);
+    astf_assert_null(str);
+
+    free(str);
+
+    astf_retrieve_results();
+}
 
 int main() {
     test_suite1();
