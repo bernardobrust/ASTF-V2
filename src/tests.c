@@ -1,3 +1,4 @@
+#define ASTF_IMPLEMENTATION
 #include "astf.h"
 
 int fib(const int n) {
@@ -12,20 +13,19 @@ int fib(const int n) {
 }
 
 void test_suite1() {
-    for (int i = 0; i <= 10; ++i)
-        printf("Fib of %d: %d\n", i, fib(i));
+    astf_start_test_suite("Fib mixed");
+
+    for (int i = 0; i <= 10; ++i) printf("Fib of %d: %d\n", i, fib(i));
 }
 
-void test_suite2() {
-}
+void test_suite2() {}
 
-void test_suite3() {
-}
+void test_suite3() {}
 
 int main() {
-  test_suite1();
-  test_suite2();
-  test_suite3();
+    test_suite1();
+    test_suite2();
+    test_suite3();
 
-  return 0;
+    return 0;
 }

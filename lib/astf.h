@@ -16,17 +16,17 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-*/
+ */
 
 #pragma once
 
-#include <math.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#define ASTF_MAX_TESTS 1000
-#define ASTF_MAX_MESSAGE_SIZE 256
+#define ASTF_MAX_TESTS 512
+#define ASTF_MAX_MESSAGE_SIZE 512
 
 // Colors
 #define astf_output_fail "\x1b[31m"
@@ -35,4 +35,41 @@
 #define astf_output_info "\x1b[36m"
 #define astf_output_normal "\x1b[0m"
 
-#define ASTF_PASSED astf_output_pass "Test passed" astf_output_normal
+// Context
+typedef struct {
+    unsigned passed;
+    unsigned failed;
+    const char *test_suite_name;
+} astf_ctx;
+
+extern astf_ctx _astf_global_ctx;
+
+void astf_start_test_suite(const char *name);
+void astf_retrieve_results();
+
+void _astf_ae_int(int exp, int act, const char *file, int line);
+void _astf_ae_unsigned(unsigned exp, unsigned act, const char *file, int line);
+void _astf_ae_unsigned_short(unsigned short exp, unsigned short act,
+                             const char *file, int line);
+void _astf_ae_str(const char *exp, const char *act, const char *file, int line);
+void _astf_ae_ptr(const void *exp, const void *act, const char *file, int line);
+
+#define astf_AE(expected, actual)                                              \
+    _Generic((expected),                                                       \
+        int: _astf_ae_int,                                                     \
+        unsigned: _astf_ae_unsigned,                                           \
+        unsigned short: _astf_ae_unsigned_short,                               \
+        char *: _astf_ae_str,                                                  \
+        const char *: _astf_ae_str,                                            \
+        default: _astf_ae_ptr)(expected, actual, __FILE__, __LINE__)
+
+#ifdef ASTF_IMPLEMENTATION
+astf_ctx _astf_global_ctx = {0};
+
+void astf_start_test_suite(const char *name) {
+    _astf_global_ctx.test_suite_name = name;
+    _astf_global_ctx.passed = 0;
+    _astf_global_ctx.failed = 0;
+    printf(astf_output_info "\n--- Starting Suite: %s ---\n", name);
+}
+#endif

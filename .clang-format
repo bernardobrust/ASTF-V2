@@ -1,0 +1,23 @@
+---
+# Based on the classic K&R style
+Language: Cpp
+BasedOnStyle: LLVM
+
+# K&R uses 8-space tabs (historically)
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+# The "K&R" brace style: attached to the statement
+BreakBeforeBraces: Attach
+
+# K&R doesn't usually indent labels or cases
+IndentCaseLabels: false
+
+# Keep it compact
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+
+# Classic C doesn't use much space inside parens
+SpacesInParentheses: false
+---
