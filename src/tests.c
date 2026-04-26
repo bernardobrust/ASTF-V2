@@ -1,8 +1,6 @@
 #define ASTF_IMPLEMENTATION
 #include "astf.h"
 
-#include <string.h>
-
 int fib(const int n) {
     int pp = 0, p = 1, next;
     for (int i = 2; i <= n; ++i) {
@@ -55,6 +53,11 @@ void test_suite2() {
     astf_assert_equal("Chad C user", name1);
     astf_assert_equal("Crab", name2);
 
+    bool t = true, f = false;
+    astf_assert_cond(true, t);
+    astf_assert_false(f);
+    astf_assert_true(f);
+
     astf_retrieve_results();
 }
 
@@ -78,10 +81,21 @@ void test_suite3() {
     astf_retrieve_results();
 }
 
+void test_suite4() {
+    astf_start_test_suite("Ranges");
+
+    astf_assert_range(4, 3, 5);
+    astf_assert_range(4.75f, 4.5f, 4.8f);
+    astf_assert_range(4.8001, 4.5, 4.8);
+
+    astf_retrieve_results();
+}
+
 int main() {
     test_suite1();
     test_suite2();
     test_suite3();
+    test_suite4();
 
     return 0;
 }

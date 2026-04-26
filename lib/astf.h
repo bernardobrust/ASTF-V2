@@ -71,6 +71,12 @@ void _astf_ae_ptr(const void *exp, const void *act, const char *file, int line);
         const char *: _astf_ae_str,                                            \
         default: _astf_ae_ptr)(expected, actual, __FILE__, __LINE__)
 
+#define astf_assert_cond(expected_bool, condition)                             \
+    _astf_ae_bool(expected_bool, (bool)(condition), __FILE__, __LINE__)
+
+#define astf_assert_true(cond) astf_assert_cond(true, cond)
+#define astf_assert_false(cond) astf_assert_cond(false, cond)
+
 #define astf_assert_approx(expected, actual, epsilon)                          \
     _Generic((expected), float: _astf_ae_float, double: _astf_ae_double)(      \
         expected, actual, epsilon, __FILE__, __LINE__)
@@ -78,6 +84,16 @@ void _astf_ae_ptr(const void *exp, const void *act, const char *file, int line);
 #define astf_assert_null(pointer) astf_assert_equal(NULL, pointer)
 #define astf_assert_not_null(pointer)                                          \
     _astf_assert_not_null(pointer, __FILE__, __LINE__)
+
+#define astf_assert_range(val, min, max)                                       \
+    _Generic((val),                                                            \
+        int: _astf_ae_range_int,                                               \
+        unsigned int: _astf_ae_range_uint,                                     \
+        unsigned short: _astf_ae_range_ushort,                                 \
+        long: _astf_ae_range_long,                                             \
+        unsigned long: _astf_ae_range_ulong,                                   \
+        float: _astf_ae_range_float,                                           \
+        double: _astf_ae_range_double)(val, min, max, __FILE__, __LINE__)
 
 #ifdef ASTF_IMPLEMENTATION
 astf_ctx _astf_global_ctx = {0};
@@ -89,7 +105,7 @@ void astf_start_test_suite(const char *name) {
     printf(astf_output_info "\n--- Starting Suite: %s ---\n", name);
 }
 
-// Assert equals
+// Assert
 // -----------------------------------------------------------------------------
 void _astf_ae_int(int exp, int act, const char *file, int line) {
     if (exp == act)
@@ -160,6 +176,17 @@ void _astf_ae_str(const char *exp, const char *act, const char *file,
     }
 }
 
+void _astf_ae_bool(bool exp, bool act, const char *file, int line) {
+    if (exp == act)
+        _astf_global_ctx.passed++;
+    else {
+        printf(astf_output_fail "[FAILED] %s: %d\n" astf_output_warn
+                                "Expected %s but got %s\n\n",
+               file, line, exp ? "true" : "false", act ? "true" : "false");
+        _astf_global_ctx.failed++;
+    }
+}
+
 // Floating point types (using Epsilon)
 void _astf_ae_double(double exp, double act, double eps, const char *file,
                      int line) {
@@ -206,6 +233,89 @@ void _astf_assert_not_null(const void *ptr, const char *file, int line) {
                "[FAILED] %s: %d\n" astf_output_warn
                "Expected pointer to not be null, but it is\n\n",
                file, line);
+        _astf_global_ctx.failed++;
+    }
+}
+
+// Ranges
+void _astf_ae_range_int(int v, int min, int max, const char *f, int l) {
+    if (v >= min && v <= max)
+        _astf_global_ctx.passed++;
+    else {
+        printf(astf_output_fail "[FAILED] %s:%d\n" astf_output_warn
+                                "Value %d out of range [%d, %d]\n\n",
+               f, l, v, min, max);
+        _astf_global_ctx.failed++;
+    }
+}
+
+void _astf_ae_range_uint(unsigned int v, unsigned int min, unsigned int max,
+                         const char *f, int l) {
+    if (v >= min && v <= max)
+        _astf_global_ctx.passed++;
+    else {
+        printf(astf_output_fail "[FAILED] %s:%d\n" astf_output_warn
+                                "Value %u out of range [%u, %u]\n\n",
+               f, l, v, min, max);
+        _astf_global_ctx.failed++;
+    }
+}
+
+void _astf_ae_range_long(long v, long min, long max, const char *f, int l) {
+    if (v >= min && v <= max)
+        _astf_global_ctx.passed++;
+    else {
+        printf(astf_output_fail "[FAILED] %s:%d\n" astf_output_warn
+                                "Value %ld out of range [%ld, %ld]\n\n",
+               f, l, v, min, max);
+        _astf_global_ctx.failed++;
+    }
+}
+
+void _astf_ae_range_ulong(unsigned long v, unsigned long min, unsigned long max,
+                          const char *f, int l) {
+    if (v >= min && v <= max)
+        _astf_global_ctx.passed++;
+    else {
+        printf(astf_output_fail "[FAILED] %s:%d\n" astf_output_warn
+                                "Value %lu out of range [%lu, %lu]\n\n",
+               f, l, v, min, max);
+        _astf_global_ctx.failed++;
+    }
+}
+
+void _astf_ae_range_ushort(unsigned short v, unsigned short min,
+                           unsigned short max, const char *f, int l) {
+    if (v >= min && v <= max)
+        _astf_global_ctx.passed++;
+    else {
+        printf(astf_output_fail "[FAILED] %s:%d\n" astf_output_warn
+                                "Value %hu out of range [%hu, %hu]\n\n",
+               f, l, v, min, max);
+        _astf_global_ctx.failed++;
+    }
+}
+
+// Floating Point Range Implementations
+void _astf_ae_range_float(float v, float min, float max, const char *f, int l) {
+    if (v >= min && v <= max)
+        _astf_global_ctx.passed++;
+    else {
+        printf(astf_output_fail "[FAILED] %s:%d\n" astf_output_warn
+                                "Value %f out of range [%f, %f]\n\n",
+               f, l, (double)v, (double)min, (double)max);
+        _astf_global_ctx.failed++;
+    }
+}
+
+void _astf_ae_range_double(double v, double min, double max, const char *f,
+                           int l) {
+    if (v >= min && v <= max)
+        _astf_global_ctx.passed++;
+    else {
+        printf(astf_output_fail "[FAILED] %s:%d\n" astf_output_warn
+                                "Value %f out of range [%f, %f]\n\n",
+               f, l, v, min, max);
         _astf_global_ctx.failed++;
     }
 }
