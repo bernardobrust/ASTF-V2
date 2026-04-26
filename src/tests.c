@@ -23,6 +23,16 @@ unsigned fib_unsigned(const unsigned n) {
     return n == 0 ? pp : p;
 }
 
+void test_my_logic() {
+    astf_start_test_suite("Math Suite");
+
+    int result = 2 + 2;
+    astf_assert_equal(4, result);
+    astf_assert_true(result > 0);
+
+    astf_retrieve_results();
+}
+
 void test_suite1() {
     astf_start_test_suite("Fib mixed");
 
@@ -92,6 +102,8 @@ void test_suite4() {
 }
 
 int main() {
+    test_my_logic();
+
     test_suite1();
     test_suite2();
     test_suite3();

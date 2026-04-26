@@ -19,6 +19,40 @@ Simplicity over all.
 
 astf2 offers a very minimal and easy to use testing infrastructure.
 
+## Features
+
+- Single header STB-style. This makes the code easy to use.
+- Super simple. This makes the code easy to use.
+- Generic macros. This makes the code easy to use.
+- Standard C11 with no compiler magic. This makes the code easy to use.
+- No memory alocations. This makes the code easy to use.
+- Tiny (<400 lines). This makes the code easy to use.
+
+Jokes aside, this means you can just do this:
+```c
+#define ASTF_IMPLEMENTATION
+#include "astf.h"
+
+int main() {
+    astf_start_test_suite("Math Suite");
+
+    int result = 2 + 2;
+    astf_assert_equal(4, result);
+    astf_assert_true(result > 0);
+
+    astf_retrieve_results();
+
+    return 0;
+}
+```
+and you already have astf working on your project (make sure your include paths
+are correct)
+
+## Licensing
+
+License: Licensed under the GNU Affero General Public License v3 (AGPLv3).
+Keep your testing tools free!
+
 ***
 
 ## Tutorial (if you may call it that)
@@ -37,4 +71,23 @@ a.k.a ```astf_assert_equal(actual, expected)```.
 
 Note that float functions require an epsilon parameter.
 
-More examples available at src/tests.c
+More examples and avaliable asserts available @src/tests.c.
+
+## Quick list
+
+```astf_assert_equal(expected, actual)```: Exactly what it suggests, use for
+exact data types.
+
+```astf_assert_approx(expected, actual, epsilon)```: Also obvious, remember to
+make sure your epsilon fits your data type's range.
+
+```astf_assert_cond(expected_bool, condition)```
+```astf_assert_true(cond)```
+```astf_assert_false(cond)```: Family of boolean asserts, the true and false
+variants are just aliasses that pass true or false into the expected bool.
+
+```astf_assert_null(pointer)```
+```astf_assert_not_null(pointer)```: Make sure your pointers actually exist (or
+not ;-;).
+
+```astf_assert_range(val, min, max)```: Works for all numeric data types.

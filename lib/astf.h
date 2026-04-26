@@ -36,11 +36,6 @@
 #define astf_output_info "\x1b[36m"
 #define astf_output_normal "\x1b[0m"
 
-// The user can define their own EPSILON, defaltts to 1e-6
-#ifndef ASTF_EPSILON
-#define ASTF_EPSILON 0.000001
-#endif
-
 // Context
 typedef struct {
     unsigned passed;
@@ -195,7 +190,7 @@ void _astf_ae_double(double exp, double act, double eps, const char *file,
     else {
         printf(astf_output_fail "[FAILED] %s: %d\n" astf_output_warn
                                 "Expected %f but got %f (Epsilon: %f)\n\n",
-               file, line, exp, act, (double)ASTF_EPSILON);
+               file, line, exp, act, eps);
         _astf_global_ctx.failed++;
     }
 }
@@ -207,7 +202,7 @@ void _astf_ae_float(float exp, float act, float eps, const char *file,
     else {
         printf(astf_output_fail "[FAILED] %s: %d\n" astf_output_warn
                                 "Expected %f but got %f (Epsilon: %f)\n\n",
-               file, line, (double)exp, (double)act, (double)ASTF_EPSILON);
+               file, line, (double)exp, (double)act, (double)eps);
         _astf_global_ctx.failed++;
     }
 }
