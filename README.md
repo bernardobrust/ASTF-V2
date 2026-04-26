@@ -23,7 +23,7 @@ astf2 offers a very minimal and easy to use testing infrastructure.
 
 ## Tutorial (if you may call it that)
 
-Copy the "astf2.h" header to the location you put your projects libraries and
+Copy the "astf.h" header to the location you put your projects libraries and
 include it where you want to test.
 
 Create a ```void``` function with the name of your test suite.
@@ -34,5 +34,7 @@ with the name of your test suite as the argument, and
 
 In between, add ```astf_...()``` with the assert type.
 a.k.a ```astf_assert_equal(actual, expected)```.
+
+Note that float functions require an epsilon parameter.
 
 More examples available at src/tests.c
