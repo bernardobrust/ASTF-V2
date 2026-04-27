@@ -26,9 +26,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define ASTF_MAX_TESTS 512
-#define ASTF_MAX_MESSAGE_SIZE 512
-
 // Colors
 #define astf_output_fail "\x1b[31m"
 #define astf_output_pass "\x1b[32m"
@@ -319,7 +316,7 @@ void _astf_ae_range_double(double v, double min, double max, const char *f,
 
 // Get results
 void astf_retrieve_results(void) {
-    printf(astf_output_info "\n--- Results for %s ---\n",
+    printf(astf_output_info "--- Results for %s ---\n",
            _astf_global_ctx.test_suite_name);
     printf(astf_output_pass "Passed: %d\n", _astf_global_ctx.passed);
     printf(astf_output_fail "Failed: %d\n" astf_output_normal,

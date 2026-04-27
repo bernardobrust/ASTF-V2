@@ -37,7 +37,6 @@ void test_suite1() {
     astf_start_test_suite("Fib mixed");
 
     unsigned a = 8, b = 3;
-
     astf_assert_equal(0, fib(0));
     astf_assert_equal(1, fib(1));
     astf_assert_equal(2, fib(3));
