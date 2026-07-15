@@ -17,7 +17,10 @@ complicated for what a testing framework is supposed to be.
 
 Simplicity over all.
 
-astf2 offers a very minimal and easy to use testing infrastructure.
+astf2 offers a very minimal and easy to use testing infrastructure. If you want
+something more complete, such as running different tests based on CLI arguments
+for the test executable, I recommend checking out
+[flag.h](https://github.com/tsoding/flag.h)
 
 ## Features
 
