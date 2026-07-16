@@ -19,7 +19,6 @@ typedef struct
 {
   double result;
   int iterations;
-
 } NewtonRaphsorResult;
 
 // We need the function f, it's derivative f', an initial guess p0, a tolerance
@@ -36,7 +35,7 @@ newton_raphsor (double (*f) (double x), double (*f_prime) (double x),
 
   for (unsigned i = 1; i <= max_iter; ++i)
     {
-      double fpp = f_prime (pp);
+      const double fpp = f_prime (pp);
 
       // Divergence
       if (fabs (fpp) < min_derivative)
@@ -46,7 +45,7 @@ newton_raphsor (double (*f) (double x), double (*f_prime) (double x),
           return r;
         }
 
-      double fp = f (pp);
+      const double fp = f (pp);
       p = pp - (fp / fpp);
 
       // Convergence
@@ -101,10 +100,9 @@ f3_prime (double x)
 int
 main ()
 {
+  // You could split the suites innto functions, but this works for the
+  // examples
   astf_start_test_suite ("Basic newton raphsor tests");
-
-  // Basic test cases, we're checking if the method converges in basic
-  // scenarios
 
   // Imediate root
   NewtonRaphsorResult r0
@@ -112,18 +110,18 @@ main ()
   astf_assert_approx (3 * PI / 2, r0.result, 1e-12);
   astf_assert_equal (1, r0.iterations);
 
+  // Strict calculations
   NewtonRaphsorResult r1 = newton_raphsor (f1, f1_prime, -1.4, 1e-12, 32);
-  astf_assert_approx (-PI / 2, r1.result, 1e-12);
-
   NewtonRaphsorResult r2 = newton_raphsor (f2, f2_prime, PI / 2, 1e-12, 32);
+  astf_assert_approx (-PI / 2, r1.result, 1e-12);
   astf_assert_approx (2.1234185958631942681, r2.result, 1e-12);
 
   astf_retrieve_results ();
 
   astf_start_test_suite ("Avoids 0 derivatives");
 
-  // We're checking that the stub is returned when the derivative is close to 0
   NewtonRaphsorResult r3 = newton_raphsor (f1, f1_prime, 0.86033, 1e-3, 2);
+  // We're checking that the stub is returned when the derivative is close to 0
   astf_assert_approx (DBL_MIN, r3.result, 1e-3);
 
   astf_retrieve_results ();
@@ -137,7 +135,7 @@ main ()
 
   // x^3 - 5x for x0 = 1 bounces around between 1 and -1
   NewtonRaphsorResult r5 = newton_raphsor (f3, f3_prime, 1, 1e-3, 512);
-  astf_assert_equal (-1, r4.iterations);
+  astf_assert_equal (-1, r5.iterations);
 
   astf_retrieve_results ();
 }
