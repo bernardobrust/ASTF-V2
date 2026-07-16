@@ -53,7 +53,7 @@ are correct)
 
 ## Licensing
 
-License: Licensed under the GNU Affero General Public License v3 (AGPLv3).
+GNU Affero General Public License v3 (AGPLv3).
 Keep your testing tools free!
 
 ***
@@ -70,11 +70,13 @@ with the name of your test suite as the argument, and
 ```astf_retrieve_results();``` at the end to get the results.
 
 In between, add ```astf_...()``` with the assert type.
-a.k.a ```astf_assert_equal(actual, expected)```.
+a.k.a ```astf_assert_equal(expected, actual)```.
 
 Note that float functions require an epsilon parameter.
 
-More examples and avaliable asserts available @src/tests.c.
+Examples:
+- [Basic ones here](example_tests.c) 
+- [A more complicated one here](newton_raphsor.c).
 
 ## Quick list
 
