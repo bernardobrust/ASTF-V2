@@ -58,7 +58,7 @@ Moreover, if prefixing everything with `astf_` sounds boring and you won't get n
 
 Examples:
 - [Basic ones here](example_tests.c) 
-- [A more complicated one here](newton_raphsor.c).
+- [A more complicated one here](newton_raphson.c).
 
 ## Quick list
 `astf_assert_equal(expected, actual)`: Exactly what it suggests, use for exact data types.
