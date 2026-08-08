@@ -5,6 +5,7 @@
 
 #define ASTF_IMPLEMENTATION
 #define ASTF_STRIP_PREFIX
+// #define ASTF_NO_ANSI_COLORS
 #include "astf.h"
 
 #include <float.h> // For DBL_MIN
