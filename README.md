@@ -54,10 +54,12 @@ In between, add `astf_assert_...()` with the assert type. a.k.a `astf_assert_equ
 
 Note that float functions require an epsilon parameter.
 
-Moreover, if prefixing everything with `astf_` sounds boring and you won't get naming conflicts, use `#define ASTF_STRIP_PREFIX` to remove the need for it.
+If prefixing everything with `astf_` sounds boring and you won't get naming conflicts, use `#define ASTF_STRIP_PREFIX` to remove the need for it.
+
+Moreover, ASTF provides colored output using ANISI colors by default, if you don't want it, use `#define ASTF_NO_ANSI_COLORS`.
 
 Examples:
-- [Basic ones here](example_tests.c) 
+- [Basic ones here](example_tests.c)
 - [A more complicated one here](newton_raphson.c).
 
 ## Quick list
