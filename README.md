@@ -28,6 +28,8 @@ Jokes aside, this means you can just `wget` the header file and do this:
 int
 main()
 {
+    astf_start_testing();
+    astf_start_group("Math");
     astf_start_test_suite("Math Suite");
 
     int result = 2 + 2;
@@ -35,6 +37,8 @@ main()
     astf_assert_true(result > 0);
 
     astf_retrieve_results();
+    astf_end_group();
+    astf_stop_testing();
 
     return 0;
 }
@@ -50,6 +54,8 @@ Create a function with the name of your test suite
 
 Then, add `astf_start_test_suite("Suite name");` at the top of the function with the name of your test suite as the argument, and `astf_retrieve_results();` at the end to get the results
 
+Wrap suites in `astf_start_group("Group name");` and `astf_end_group();`. A group reports fully passed, partially failed, and fully failed suites. Wrap all groups in `astf_start_testing();` and `astf_stop_testing();`; testing results classify groups the same way.
+
 In between, add `astf_assert_...()` with the assert type. a.k.a `astf_assert_equal(expected, actual)`
 
 Note that float functions require an epsilon parameter
@@ -61,6 +67,7 @@ Moreover, ASTF provides colored output using ANISI colors by default, if you don
 Examples:
 - [Basic examples](example_tests.c)
 - [Use in Numerical Methods](newton_raphson.c)
+- [Convex hull groups](convex_hull.c)
 
 ## Quick list
 `astf_assert_equal(expected, actual)`: Exactly what it suggests, use for exact data types (a.k.a non-floats)

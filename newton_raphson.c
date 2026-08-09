@@ -101,7 +101,7 @@ f3_prime (double x)
 int
 main ()
 {
-  // You could split the suites innto functions, but this works for the
+  // You could split the suites into groups, but this works for the
   // examples
   // -------------------------------------------------------------------------------------------------
   start_test_suite ("Basic newton raphsor tests");
