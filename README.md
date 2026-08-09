@@ -8,9 +8,14 @@ This project aims to be a simple testing framework for the C programming languag
 I did this because the other frameworks avaliable are overly comlpex for what a testing framework should to be. Advanced features require software-specific structure and should not be a responsability of the testing tool
 
 ## Design
-Simplicity over all.
+Simplicity over all
 
-astf2 offers minimal and easy to use testing infrastructure. For CLI arguments, subcommands, and help text in test executables, pair ASTF with [flag.h](https://github.com/tsoding/flag.h). `switches.c` shows a small manual dispatcher; `flag.h` scales that pattern well.
+astf2 offers minimal and easy to use testing infrastructure. For CLI arguments, subcommands, and help text in test executables, pair ASTF with [flag.h](https://github.com/tsoding/flag.h). `switches.c` shows a small manual dispatcher; `flag.h` scales that pattern well
+
+## On testing
+You have to ask yourself "How much of my code do I want to be test code?". Remember that after you built the tests and they pass, they can fail if you change the function later, so you have to change the test, which increases development friction
+
+So I recommend testing parts of your code that are small (can run independently of the rest of the program) and need correctness (like algorithms and data structures), or e2e testing after the software is basically complete (so you're just doing it to make sure your "polishing" does not break anything)
 
 ## Features
 - Single header STB-style. This makes the code easy to use
@@ -65,10 +70,10 @@ If prefixing everything with `astf_` sounds boring and you won't get naming conf
 Moreover, ASTF provides colored output using ANISI colors by default, if you don't want it, use `#define ASTF_NO_ANSI_COLORS`
 
 Examples:
-- [Basic examples](example_tests.c)
-- [Use in Numerical Methods](newton_raphson.c)
-- [Use in Computational Geometry](convex_hull.c)
-- [CLI-selected sequence tests](switches.c)
+- [Basic examples](example_tests.c), basic reference of the tool
+- [CLI-selected sequence tests](switches.c), a more "real world" setup
+- [Use in Numerical Methods](newton_raphson.c), shows how to use astf to TDD a Numerical Method
+- [Use in Computational Geometry](convex_hull.c), TDD an algorithm
 
 ## Quick list
 `astf_assert_equal(expected, actual)`: Exactly what it suggests, use for exact data types (a.k.a non-floats)
