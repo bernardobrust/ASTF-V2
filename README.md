@@ -10,7 +10,7 @@ I did this because the other frameworks avaliable are overly comlpex for what a 
 ## Design
 Simplicity over all.
 
-astf2 offers minimal and easy to use testing infrastructure. If you want something more complete, such as running different tests based on CLI arguments for the test executable, I recommend checking out [flag.h](https://github.com/tsoding/flag.h)
+astf2 offers minimal and easy to use testing infrastructure. For CLI arguments, subcommands, and help text in test executables, pair ASTF with [flag.h](https://github.com/tsoding/flag.h). `switches.c` shows a small manual dispatcher; `flag.h` scales that pattern well.
 
 ## Features
 - Single header STB-style. This makes the code easy to use
@@ -68,6 +68,7 @@ Examples:
 - [Basic examples](example_tests.c)
 - [Use in Numerical Methods](newton_raphson.c)
 - [Use in Computational Geometry](convex_hull.c)
+- [CLI-selected sequence tests](switches.c)
 
 ## Quick list
 `astf_assert_equal(expected, actual)`: Exactly what it suggests, use for exact data types (a.k.a non-floats)

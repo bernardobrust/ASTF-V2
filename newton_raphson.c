@@ -103,7 +103,6 @@ main ()
 {
   // You could split the suites into groups, but this works for the
   // examples
-  // -------------------------------------------------------------------------------------------------
   start_test_suite ("Basic newton raphsor tests");
 
   // Imediate root
@@ -119,9 +118,7 @@ main ()
   assert_approx (0.0f, f2 (r2.result), 1e-12);
 
   retrieve_results ();
-  // -------------------------------------------------------------------------------------------------
 
-  // -------------------------------------------------------------------------------------------------
   start_test_suite ("Avoids 0 derivatives");
 
   NewtonRaphsorResult r3 = newton_raphsor (f1, f1_prime, 0.86033, 1e-3, 2);
@@ -129,9 +126,7 @@ main ()
   assert_approx (DBL_MIN, r3.result, 1e-3);
 
   retrieve_results ();
-  // -------------------------------------------------------------------------------------------------
 
-  // -------------------------------------------------------------------------------------------------
   start_test_suite ("STUBs when max_iter is not viable or never converges");
 
   // Returns the STUB when there's no way to converge that fast
@@ -143,5 +138,4 @@ main ()
   assert_equal (-1, r5.iterations);
 
   retrieve_results ();
-  // -------------------------------------------------------------------------------------------------
 }

@@ -15,7 +15,7 @@ typedef struct
   int y;
 } Point;
 
-static int
+int
 compare_points (const void *left, const void *right)
 {
   const Point *a = left;
@@ -23,15 +23,15 @@ compare_points (const void *left, const void *right)
   return a->x != b->x ? a->x - b->x : a->y - b->y;
 }
 
-static int
+int
 cross (Point origin, Point a, Point b)
 {
   return (a.x - origin.x) * (b.y - origin.y)
          - (a.y - origin.y) * (b.x - origin.x);
 }
 
-/* Returns hull size. Points is sorted in-place. */
-static size_t
+// Returns hull size, points is sorted in-place
+size_t
 convex_hull (Point *points, size_t count, Point *hull)
 {
   if (count == 0)
@@ -74,7 +74,7 @@ convex_hull (Point *points, size_t count, Point *hull)
 }
 
 // Utility
-static bool
+bool
 hull_has_point (const Point *hull, size_t count, Point expected)
 {
   for (size_t i = 0; i < count; ++i)
@@ -85,7 +85,7 @@ hull_has_point (const Point *hull, size_t count, Point expected)
 }
 
 // Test suites
-static void
+void
 test_square_hull ()
 {
   Point points[] = { { 0, 0 }, { 1, 0 }, { 1, 1 }, { 0, 1 }, { 0, 0 } };
@@ -98,7 +98,7 @@ test_square_hull ()
   retrieve_results ();
 }
 
-static void
+void
 test_interior_point ()
 {
   Point points[] = { { 0, 0 }, { 2, 0 }, { 2, 2 }, { 0, 2 }, { 1, 1 } };
@@ -111,7 +111,7 @@ test_interior_point ()
   retrieve_results ();
 }
 
-static void
+void
 test_small_inputs ()
 {
   Point point[] = { { 3, 7 } };
@@ -126,7 +126,7 @@ test_small_inputs ()
   retrieve_results ();
 }
 
-static void
+void
 test_empty_input ()
 {
   Point hull[1];
@@ -138,7 +138,7 @@ test_empty_input ()
   retrieve_results ();
 }
 
-static void
+void
 test_two_points ()
 {
   Point points[] = { { -4, 9 }, { 12, -3 } };
@@ -153,7 +153,7 @@ test_two_points ()
   retrieve_results ();
 }
 
-static void
+void
 test_collinear_points ()
 {
   Point points[] = { { 4, 8 }, { -2, -4 }, { 2, 4 }, { 0, 0 }, { 6, 12 } };
@@ -168,7 +168,7 @@ test_collinear_points ()
   retrieve_results ();
 }
 
-static void
+void
 test_duplicate_points ()
 {
   Point points[] = { { 5, -3 }, { 5, -3 }, { 5, -3 }, { 5, -3 } };
@@ -183,7 +183,7 @@ test_duplicate_points ()
   retrieve_results ();
 }
 
-static void
+void
 test_large_grid ()
 {
   Point points[100];
@@ -205,7 +205,7 @@ test_large_grid ()
   retrieve_results ();
 }
 
-static void
+void
 test_large_irregular_set ()
 {
   Point points[]
