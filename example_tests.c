@@ -3,8 +3,17 @@
 #include "astf.h"
 
 /*
-** Here are a couple of basic examples on how to use ASTF
-** For a more intricate example check "newton_raphsor.c"
+** Basic ASTF example.
+**
+** Tests belong to suites. Suites belong to groups. Groups belong to one
+** testing process:
+**
+**   start_testing(); start_group(...); suites; end_group(); stop_testing();
+**
+** This file deliberately includes failing assertions. They show ASTF failure
+** output and make group summaries demonstrate fully passed, partially failed,
+** and fully failed results. For a Computational Geometry example, see
+** "convex_hull.c". For a Numerical Calculus example, see "newton_raphson.c".
 */
 
 int
@@ -57,10 +66,10 @@ test_suite1 ()
   assert_equal (1, fib (1));
   assert_equal (2, fib (3));
 
-  // Fails
+  // Intentional failure: fib(4) is 3, not 5.
   assert_equal (5, fib (4));
 
-  // Fails
+  // Intentional failures using unsigned values.
   assert_equal (a, fib_unsigned (4));
   assert_equal (b, fib_unsigned (4));
 
@@ -79,20 +88,20 @@ test_suite2 ()
   float w = 3.14f, z = 3.10f;
   assert_approx (x, y, 0.0001);
 
-  // Fails
+  // Intentional floating-point failure: difference exceeds epsilon.
   assert_approx (w, z, 0.01f);
 
   const char *name1 = "Chad C user", *name2 = "Loser Rust user";
   assert_equal ("Chad C user", name1);
 
-  // Fails
+  // Intentional string comparison failure.
   assert_equal ("Crab", name2);
 
   bool t = true, f = false;
   assert_cond (true, t);
   assert_false (f);
 
-  // Fails
+  // Intentional boolean failure.
   assert_true (f);
 
   retrieve_results ();
@@ -110,13 +119,13 @@ test_suite3 ()
 
   assert_not_null (str);
 
-  // Fails
+  // Intentional NULL check failure.
   assert_not_null (ptr1);
 
   assert_equal (ptr2, &x);
   assert_null (ptr1);
 
-  // Both fail
+  // Both are intentional NULL check failures.
   assert_null (ptr2);
   assert_null (str);
 
@@ -133,8 +142,20 @@ test_suite4 ()
   assert_range (4, 3, 5);
   assert_range (4.75f, 4.5f, 4.8f);
 
-  // Fails
+  // Intentional out-of-range value.
   assert_range (4.8001, 4.5, 4.8);
+
+  retrieve_results ();
+}
+
+void
+test_suite5 ()
+{
+  start_test_suite ("Intentional complete failure");
+
+  // No assertions pass, so this suite and group are fully failed.
+  assert_true (false);
+  assert_equal (10, 5);
 
   retrieve_results ();
 }
@@ -142,11 +163,29 @@ test_suite4 ()
 int
 main ()
 {
+  start_testing ();
+
+  // This group has no failing assertions: fully passed.
+  start_group ("Passing examples");
   test_suite0 ();
+  end_group ();
+
+  // Both suites mix passing and intentional failures: partially failed.
+  start_group ("Mixed result examples");
   test_suite1 ();
   test_suite2 ();
+  end_group ();
+
+  // These suites exercise pointer and range assertion failures.
+  start_group ("Pointer and range examples");
   test_suite3 ();
   test_suite4 ();
+  end_group ();
 
-  return 0;
+  // This group contains one suite where every assertion fails.
+  start_group ("Fully failed example");
+  test_suite5 ();
+  end_group ();
+
+  stop_testing ();
 }
